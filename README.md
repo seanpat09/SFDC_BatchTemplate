@@ -29,7 +29,8 @@ You either implement getQuery, execute and finish yourself:
     	}
     }
 
-Or extend StandardBatchFinish
+Or extend StandardBatchFinish:
+
 	public with sharing class MyExtendedBatchHelper extends StandardBatchFinish implement IBatchHelper
 	{
 		String getQuery()
@@ -42,7 +43,8 @@ Or extend StandardBatchFinish
     		//your logic
     	}
     }
-To make your batch schedulable, all you need to do is extend the BatchScheduler class
+    
+To make your batch schedulable, all you need to do is extend the BatchScheduler class:
 
 	global class DemoBatchScheduler extends BatchScheduler
 	{	
