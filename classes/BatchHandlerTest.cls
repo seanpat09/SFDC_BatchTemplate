@@ -10,7 +10,7 @@ private class BatchHandlerTest
         public String getQuery()
         {
             getQueryCalled = true;
-            return 'SELECT Id FROM User';
+            return 'SELECT Id FROM User LIMIT 1';
         }
 
         public void execute( Database.BatchableContext bc, List<sObject> sObjects )

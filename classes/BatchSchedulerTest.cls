@@ -3,6 +3,8 @@ private class BatchSchedulerTest
 {
     static final String SCHEDULABLE_TO_SCHEDULE = 'BatchSchedulerMock'; 
     static final String BATCH_TO_SCHEDULE = 'BatchHandler'; 
+    static final Integer RESCHEDULE_MINUTES = 10;
+    static final String TITLE = 'Test Title';
 
     public with sharing class BatchHelperMock implements IBatchHelper
     {
@@ -11,10 +13,20 @@ private class BatchSchedulerTest
         public void finish( Database.BatchableContext bc, Id jobId ){}
     }
     
+    static testMethod void constructor() 
+    {
+        Test.startTest(); 
+            BatchScheduler scheduler = new BatchSchedulerMock( RESCHEDULE_MINUTES, TITLE );
+        Test.stopTest(); 
+
+        System.assertEquals( TITLE, scheduler.title, 'The title on the scheduler should be set correctly' );
+        System.assertEquals( RESCHEDULE_MINUTES, scheduler.minutesBeforeReschedule,
+            'The minutesBeforeReschedule on the scheduler should be set correctly' );
+    } 
+    
     static testMethod void scheduled_BatchScheduled() 
     {
-        Integer RESCHEDULE_MINUTES = 10;
-        BatchScheduler scheduler = new BatchSchedulerMock( RESCHEDULE_MINUTES );
+        BatchScheduler scheduler = new BatchSchedulerMock( RESCHEDULE_MINUTES, TITLE );
 
         Test.startTest(); 
             scheduler.schedule( new BatchHelperMock() );
@@ -26,8 +38,7 @@ private class BatchSchedulerTest
 
     static testMethod void testScheduleRetry() 
     {
-        Integer RESCHEDULE_MINUTES = 10;
-        BatchScheduler scheduler = new BatchSchedulerMock( RESCHEDULE_MINUTES );
+        BatchScheduler scheduler = new BatchSchedulerMock( RESCHEDULE_MINUTES, TITLE );
         ApexClass schedulableClass = [SELECT Id FROM ApexClass WHERE Name=:SCHEDULABLE_TO_SCHEDULE]; 
 
         Test.startTest(); 

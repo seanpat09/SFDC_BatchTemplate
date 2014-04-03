@@ -50,15 +50,14 @@ To make your batch schedulable, all you need to do is extend the BatchScheduler 
 	{	
     	global DemoBatchScheduler()
 	    {
-    	    super(10);
+    	    super(10, 'batch title');
     	}
     	global void execute(SchedulableContext SC)
 	    {
-    	    schedule( new DemoBatchHelper('Case Hold Clear Job') );
+    	    schedule( new MyExtendedBatchHelper('batch title') );
     	}
 	}
 	
-BatchScheduler will handle scheduling you batch, check if 5 batches are currently running, and reschedule your batch if necessary.
-The integer you pass into the super constructor is the number of minutes to wait before running the batch again.
+BatchScheduler will handle scheduling your batch, check if 5 batches are currently running, and reschedule your batch if necessary. The integer you pass into the super constructor is the number of minutes to wait before running the batch again and the string is the title
 
 This tool does no DMLs and relies on no data, so you can easily drop it into your org!

@@ -1,10 +1,12 @@
 public with sharing abstract class BatchScheduler implements Schedulable
 {
     @TestVisible static final Integer MAX_CONCURRENT_BATCH = 5;
-    Integer minutesBeforeReschedule;
-    public BatchScheduler( Integer minutes )
+    @TestVisible Integer minutesBeforeReschedule;
+    @TestVisible String title;
+    public BatchScheduler( Integer minutes, String title )
     {
         this.minutesBeforeReschedule = minutes;
+        this.title = title;
     } 
     public void schedule( IBatchHelper helper, Integer batchSize )
     {
@@ -30,6 +32,6 @@ public with sharing abstract class BatchScheduler implements Schedulable
     { 
         Datetime rescheduleDateTime = Datetime.now().addMinutes(minutesBeforeReschedule); 
         String timeForScheduler = rescheduleDateTime.format('s m H d M \'?\' yyyy'); 
-        System.schedule('Case Hold Clear Job'+timeForScheduler, timeForScheduler, this); 
+        System.schedule(title + ' ' + timeForScheduler, timeForScheduler, this); 
     } 
 }
