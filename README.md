@@ -44,9 +44,11 @@ Or extend StandardBatchFinish:
     	}
     }
     
-To make your batch schedulable, all you need to do is extend the BatchScheduler class:
+To make your batch schedulable, all you need to do is extend the BatchScheduler class
+NOTE: If you want to schedule your class through the Salesforce UI, your extension also needs to implement Schedulable even though the BatchScheduler base class also implements it
 
-	global class DemoBatchScheduler extends BatchScheduler
+
+	global class DemoBatchScheduler extends BatchScheduler implements Schedulable
 	{	
     	global DemoBatchScheduler()
 	    {
@@ -58,6 +60,7 @@ To make your batch schedulable, all you need to do is extend the BatchScheduler 
     	}
 	}
 	
+
 BatchScheduler will handle scheduling your batch, check if 5 batches are currently running, and reschedule your batch if necessary. The integer you pass into the super constructor is the number of minutes to wait before running the batch again and the string is the title
 
 This tool does no DMLs and relies on no data, so you can easily drop it into your org!
